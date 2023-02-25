@@ -25,6 +25,9 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<String> displayXOrO = ['', '', '', '', '', '', '', '', ''];
+
+  bool turnX = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +76,79 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _tap(int index) {
     setState(() {
-      displayXOrO[index] = 'O';
+      if (turnX) {
+        displayXOrO[index] = 'X';
+      } else {
+        displayXOrO[index] = 'O';
+      }
+
+      turnX = !turnX;
+      _checkWinner();
     });
+  }
+
+  void _checkWinner() {
+    // row 1
+    if (displayXOrO[0] != '' &&
+        displayXOrO[0] == displayXOrO[1] &&
+        displayXOrO[0] == displayXOrO[2]) {
+      _showDialog();
+    }
+
+    //row 2
+    if (displayXOrO[3] != '' &&
+        displayXOrO[3] == displayXOrO[4] &&
+        displayXOrO[3] == displayXOrO[5]) {
+      _showDialog();
+    }
+
+    //row 3
+    if (displayXOrO[6] != '' &&
+        displayXOrO[6] == displayXOrO[7] &&
+        displayXOrO[6] == displayXOrO[8]) {
+      _showDialog();
+    }
+
+    //column 1
+    if (displayXOrO[0] != '' &&
+        displayXOrO[0] == displayXOrO[3] &&
+        displayXOrO[0] == displayXOrO[6]) {
+      _showDialog();
+    }
+
+    //column 2
+    if (displayXOrO[1] != '' &&
+        displayXOrO[1] == displayXOrO[4] &&
+        displayXOrO[1] == displayXOrO[7]) {
+      _showDialog();
+    }
+
+    //column 3
+    if (displayXOrO[2] != '' &&
+        displayXOrO[2] == displayXOrO[5] &&
+        displayXOrO[2] == displayXOrO[8]) {
+      _showDialog();
+    }
+
+    if (displayXOrO[0] != '' &&
+        displayXOrO[0] == displayXOrO[4] &&
+        displayXOrO[0] == displayXOrO[8]) {
+      _showDialog();
+    }
+
+    if (displayXOrO[2] != '' &&
+        displayXOrO[2] == displayXOrO[4] &&
+        displayXOrO[2] == displayXOrO[6]) {
+      _showDialog();
+    }
+  }
+
+  void _showDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const AlertDialog(
+        title: Text('winner'),
+      ),
+    );
   }
 }
